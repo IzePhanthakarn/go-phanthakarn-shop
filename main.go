@@ -1,10 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/IzePhanthakarn/go-phanthakarn-shop/config"
+	"github.com/IzePhanthakarn/go-phanthakarn-shop/modules/servers"
+	"github.com/IzePhanthakarn/go-phanthakarn-shop/pkg/databases"
 )
 
 func envPath() string {
@@ -17,7 +18,9 @@ func envPath() string {
 
 func main() {
 	cfg := config.LoadConfig(envPath())
-	fmt.Println(cfg.App())
-	fmt.Println(cfg.Db())
-	fmt.Println(cfg.Jwt())
+
+	db := databases.DbConnect(cfg.Db())
+	defer db.Close()
+
+	servers.NewServer(cfg, db).Start()
 }

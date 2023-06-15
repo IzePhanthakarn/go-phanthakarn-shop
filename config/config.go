@@ -116,6 +116,7 @@ type config struct {
 
 type IAppConfig interface {
 	Url() string // host:port
+	Port() string
 	Name() string
 	Version() string
 	ReadTimeout() time.Duration
@@ -142,6 +143,7 @@ func (c *config) App() IAppConfig {
 }
 
 func (a *app) Url() string                 { return fmt.Sprintf("%s:%d ", a.host, a.port) }
+func (a *app) Port() string                { return fmt.Sprintf(":%d", a.port) }
 func (a *app) Name() string                { return a.name }
 func (a *app) Version() string             { return a.version }
 func (a *app) ReadTimeout() time.Duration  { return a.readTimeout }
